@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Repositories\UserRepository;
 use App\Models\User;
 
 class UserController extends Controller
@@ -13,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return UserRepository::all();
     }
 
     /**
@@ -21,7 +22,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        User::create($request->validated());
+        UserRepository::create($request->validated());
     }
 
     /**
@@ -29,7 +30,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user;
+        return UserRepository::find($user->id);
     }
 
     /**
@@ -37,7 +38,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->validated());
+        UserRepository::update($user->id, $request->validated());
     }
 
     /**
@@ -45,6 +46,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        UserRepository::delete($user->id);
     }
 }
