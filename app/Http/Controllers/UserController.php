@@ -13,14 +13,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(PaginationRequest $request = null)
+    public function index(PaginationRequest $request)
     {
-        if(is_null($request)){
-            return UserRepository::all();
-        }
-
         $page = $request->query('page');
         $limit = $request->query('limit');
+
+        if (is_null($page) || is_null($limit)) {
+            return UserRepository::all();
+        }
 
         return UserRepository::paginate($page, $limit);
     }
