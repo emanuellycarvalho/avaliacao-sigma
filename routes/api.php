@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('users', UserController::class);
+Route::resource('/v1/users', UserController::class);
+Route::get('/v1/users/paginate/{page}/{limit}', [UserController::class, 'pagination'])->name('pagination');

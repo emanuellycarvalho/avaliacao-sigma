@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Interfaces\RepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -25,6 +26,10 @@ abstract class AbstractRepository implements RepositoryInterface
 
     public static function all():Collection{
         return self::resolveModel()::all();
+    }
+
+    public static function paginate($page, $itemsPerPage):LengthAwarePaginator{
+        return self::resolveModel()::paginate($itemsPerPage, ['*'], 'page', $page);
     }
 
     public static function find(int $id):Model|null{

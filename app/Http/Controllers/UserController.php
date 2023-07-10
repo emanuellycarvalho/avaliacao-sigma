@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\PaginationRequest;
 use App\Repositories\UserRepository;
 use App\Models\User;
 
@@ -12,9 +13,24 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PaginationRequest $request = null)
     {
-        return UserRepository::all();
+        if(is_null($request)){
+            return UserRepository::all();
+        }
+
+        $page = $request->query('page');
+        $limit = $request->query('limit');
+
+        return UserRepository::paginate($page, $limit);
+    }
+
+    /**
+     * Display a listing of the resource paginating.
+     */
+    public function pagination($page, $limit)
+    {
+        return UserRepository::paginate($page, $limit);
     }
 
     /**
